@@ -48,6 +48,12 @@ android {
         }
     }
 
+    buildTypes {
+        unsigned {
+            signingConfig null
+        }
+    }
+
     lintOptions {
         textReport true
         textOutput 'stdout'
