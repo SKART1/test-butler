@@ -1,0 +1,5 @@
+<!-- Note: sharedUserId is required to make this app run as the same Linux user as system apps -->
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:sharedUserId="android.uid.system">
+</manifest>

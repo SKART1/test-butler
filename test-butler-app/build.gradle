@@ -35,11 +35,10 @@ android {
         versionCode 1
         versionName VERSION_NAME
 
-        signingConfig signingConfigs.debug
     }
 
     signingConfigs {
-        debug {
+        custom {
             storeFile file("keystore/platform.keystore")
             keyAlias "platform"
 
@@ -48,9 +47,12 @@ android {
         }
     }
 
-    buildTypes {
-        unsigned {
-            signingConfig null
+    productFlavors {
+        full {
+            signingConfig signingConfigs.custom
+        }
+        reduced {
+            signingConfig signingConfigs.debug
         }
     }
 

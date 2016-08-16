@@ -1,0 +1,4 @@
+<!-- Note: sharedUserId is required to make this app run as the same Linux user as system apps -->
+<manifest>
+    <!--Empty manifest, same as default-->
+</manifest>
