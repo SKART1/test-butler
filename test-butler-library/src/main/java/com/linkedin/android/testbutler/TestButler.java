@@ -173,6 +173,17 @@ public class TestButler {
         }
     }
 
+    public static void setInternetState(boolean enabled) {
+        verifyApiReady();
+        try {
+            if (!butlerApi.setInternetState(enabled)) {
+                throw new IllegalStateException("Failed to set internet state!");
+            }
+        } catch (RemoteException e) {
+            throw new IllegalStateException("Failed to communicate with ButlerService", e);
+        }
+    }
+
     /**
      * Change the location services mode on the emulator
      *

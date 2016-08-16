@@ -29,4 +29,9 @@ interface ButlerApi {
     boolean setRotation(int rotation);
 
     boolean setGsmState(boolean enabled);
+
+     /**
+      * Disables/Enables data transfer over internet
+      */
+     boolean setInternetState(boolean enabled);
 }

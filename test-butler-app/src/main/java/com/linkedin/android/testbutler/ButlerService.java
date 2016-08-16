@@ -60,6 +60,27 @@ public class ButlerService extends Service {
         }
 
         @Override
+        public boolean setInternetState(boolean enabled) throws RemoteException {
+            boolean result = true;
+
+            try {
+                WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+                result = wifiManager.setWifiEnabled(enabled);
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+                Log.d(TAG, "Wifi has exception ", throwable);
+            }
+
+            try {
+                result &= gsmDataDisabler.setGsmState(ButlerService.this, enabled);
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+                Log.d(TAG, "GsmDataDisabler has exception ", throwable);
+            }
+            return result;
+        }
+
+        @Override
         public boolean setLocationMode(int locationMode) throws RemoteException {
             return locationServicesChanger.setLocationServicesState(getContentResolver(), locationMode);
         }
@@ -78,39 +99,39 @@ public class ButlerService extends Service {
 
         // Save current device rotation so we can restore it after tests complete
         rotationChanger = new RotationChanger();
-        rotationChanger.saveRotationState(getContentResolver());
+        /*rotationChanger.saveRotationState(getContentResolver());*/
 
         // Save current location services setting so we can restore it after tests complete
         locationServicesChanger = new LocationServicesChanger();
-        locationServicesChanger.saveLocationServicesState(getContentResolver());
+        /*locationServicesChanger.saveLocationServicesState(getContentResolver());*/
 
         // Disable animations on the device so tests can run reliably
         animationDisabler = new AnimationDisabler();
-        animationDisabler.disableAnimations();
+        /*animationDisabler.disableAnimations();*/
 
         // Acquire a WifiLock to prevent wifi from turning off and breaking tests
         // NOTE: holding a WifiLock does NOT override a call to setWifiEnabled(false)
-        WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+        /*WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
         wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, "ButlerWifiLock");
-        wifiLock.acquire();
+        wifiLock.acquire();*/
 
         // Acquire a keyguard lock to prevent the lock screen from randomly appearing and breaking tests
-        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+        /*KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
         keyguardLock = keyguardManager.newKeyguardLock("ButlerKeyguardLock");
-        keyguardLock.disableKeyguard();
+        keyguardLock.disableKeyguard();*/
 
         // Acquire a wake lock to prevent the cpu from going to sleep and breaking tests
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        /*PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK
                 | PowerManager.ACQUIRE_CAUSES_WAKEUP
                 | PowerManager.ON_AFTER_RELEASE, "ButlerWakeLock");
-        wakeLock.acquire();
+        wakeLock.acquire();*/
 
         // Instantiate gsm data disabler
         gsmDataDisabler = new GsmDataDisabler();
 
         // Install custom IActivityController to prevent system dialogs from appearing if apps crash or ANR
-        NoDialogActivityController.install();
+        /*NoDialogActivityController.install();*/
     }
 
     @Override
@@ -120,21 +141,21 @@ public class ButlerService extends Service {
         Log.d(TAG, "ButlerService shutting down...");
 
         // Release all the locks we were holding
-        wakeLock.release();
+        /*wakeLock.release();
         keyguardLock.reenableKeyguard();
-        wifiLock.release();
+        wifiLock.release();*/
 
         // Re-enable animations on the emulator
-        animationDisabler.enableAnimations();
+       /* animationDisabler.enableAnimations();*/
 
         // Reset location services state to whatever it originally was
-        locationServicesChanger.restoreLocationServicesState(getContentResolver());
+      /*  locationServicesChanger.restoreLocationServicesState(getContentResolver());*/
 
         // Reset rotation from the accelerometer to whatever it originally was
-        rotationChanger.restoreRotationState(getContentResolver());
+        /*rotationChanger.restoreRotationState(getContentResolver());*/
 
         // Uninstall our IActivityController to resume normal Activity behavior
-        NoDialogActivityController.uninstall();
+        /*NoDialogActivityController.uninstall();*/
     }
 
     @Nullable
