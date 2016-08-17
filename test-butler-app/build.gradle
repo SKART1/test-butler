@@ -28,15 +28,6 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
-    defaultConfig {
-        applicationId "com.linkedin.android.testbutler"
-        minSdkVersion 14
-        targetSdkVersion 23
-        versionCode 1
-        versionName VERSION_NAME
-
-    }
-
     signingConfigs {
         custom {
             storeFile file("keystore/platform.keystore")
@@ -47,6 +38,15 @@ android {
         }
     }
 
+    defaultConfig {
+        applicationId "com.linkedin.android.testbutler"
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName VERSION_NAME
+        signingConfig signingConfigs.custom
+    }
+
     productFlavors {
         full {
             signingConfig signingConfigs.custom
@@ -55,6 +55,15 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+//    buildTypes {
+//        release {
+//            productFlavors.full.signingConfig signingConfigs.custom
+//        }
+//        debug {
+//            productFlavors.full.signingConfig signingConfigs.custom
+//        }
+//    }
 
     lintOptions {
         textReport true
