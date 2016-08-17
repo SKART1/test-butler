@@ -160,8 +160,9 @@ public class TestButler {
     /**
      * Enable/disable the GSM connection on the emulator
      *
-     * @param enabled true if wifi should be enabled, false otherwise
+     * @param enabled true if GSM should be enabled, false otherwise
      */
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public static void setGsmState(boolean enabled) {
         verifyApiReady();
         try {
@@ -173,6 +174,7 @@ public class TestButler {
         }
     }
 
+
     public static void setInternetState(boolean enabled) {
         verifyApiReady();
         try {
@@ -183,6 +185,7 @@ public class TestButler {
             throw new IllegalStateException("Failed to communicate with ButlerService", e);
         }
     }
+
 
     /**
      * Change the location services mode on the emulator
