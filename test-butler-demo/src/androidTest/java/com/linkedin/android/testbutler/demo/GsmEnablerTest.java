@@ -30,6 +30,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertTrue;
+
 public class GsmEnablerTest {
     public static final int RETRY_COUNT = 10;
     public static final int PAUSE = 100;
@@ -53,7 +55,7 @@ public class GsmEnablerTest {
         boolean precondition;
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         precondition = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        Assert.assertTrue("Data transfer was not enabled at the beginning of the test", precondition);
+        assertTrue("Data transfer was not enabled at the beginning of the test", precondition);
 
         //Action
         disableDataTransferAndCheck();
@@ -66,7 +68,7 @@ public class GsmEnablerTest {
         boolean precondition;
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         precondition = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        Assert.assertTrue("Data transfer was not enabled at the beginning of the test", precondition);
+        assertTrue("Data transfer was not enabled at the beginning of the test", precondition);
 
         //Action 1
         disableDataTransferAndCheck();
@@ -78,7 +80,7 @@ public class GsmEnablerTest {
     private void disableDataTransferAndCheck() {
         boolean result = disableDataTransfer();
 
-        Assert.assertTrue("Data transfer was not disabled", result);
+        assertTrue("Data transfer was not disabled", result);
     }
 
     private boolean disableDataTransfer() {
@@ -98,7 +100,7 @@ public class GsmEnablerTest {
     private void enableDataTransferAndCheck() {
         boolean result = enableDataTransfer();
 
-        Assert.assertTrue("Data transfer was not enabled", result);
+        assertTrue("Data transfer was not enabled", result);
     }
 
     private boolean enableDataTransfer() {

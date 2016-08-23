@@ -22,6 +22,7 @@ import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -41,6 +42,7 @@ public class ButlerService extends Service {
     private RotationChanger rotationChanger;
     private LocationServicesChanger locationServicesChanger;
     private GsmDataDisabler gsmDataDisabler;
+    private PermissionChanger permissionChanger;
 
     private WifiManager.WifiLock wifiLock;
     private PowerManager.WakeLock wakeLock;
@@ -60,27 +62,6 @@ public class ButlerService extends Service {
         }
 
         @Override
-        public boolean setInternetState(boolean enabled) throws RemoteException {
-            boolean result = true;
-
-            try {
-                WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
-                result = wifiManager.setWifiEnabled(enabled);
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-                Log.d(TAG, "Wifi has exception ", throwable);
-            }
-
-            try {
-                result &= gsmDataDisabler.setGsmState(ButlerService.this, enabled);
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-                Log.d(TAG, "GsmDataDisabler has exception ", throwable);
-            }
-            return result;
-        }
-
-        @Override
         public boolean setLocationMode(int locationMode) throws RemoteException {
             return locationServicesChanger.setLocationServicesState(getContentResolver(), locationMode);
         }
@@ -89,7 +70,19 @@ public class ButlerService extends Service {
         public boolean setRotation(int rotation) throws RemoteException {
             return rotationChanger.setRotation(getContentResolver(), rotation);
         }
+
+        @Override
+        public String grantPermission(@NonNull String packageName, @NonNull String permission) throws RemoteException {
+            return permissionChanger.grantPermission(packageName, permission);
+        }
+
+        @Override
+        public String revokePermission(@NonNull String packageName, @NonNull String permission) throws RemoteException {
+            return permissionChanger.revokePermission(packageName, permission);
+        }
     };
+
+
 
     @Override
     public void onCreate() {
@@ -129,6 +122,12 @@ public class ButlerService extends Service {
 
         // Instantiate gsm data disabler
         gsmDataDisabler = new GsmDataDisabler();
+
+        // Instantiate gsm data disabler
+        gsmDataDisabler = new GsmDataDisabler();
+
+        //Grant and revokes permissions
+        permissionChanger = new PermissionChanger();
 
         // Install custom IActivityController to prevent system dialogs from appearing if apps crash or ANR
         /*NoDialogActivityController.install();*/

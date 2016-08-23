@@ -30,8 +30,6 @@ interface ButlerApi {
 
     boolean setGsmState(boolean enabled);
 
-     /**
-      * Disables/Enables data transfer over internet
-      */
-     boolean setInternetState(boolean enabled);
+    String grantPermission(String packageName, String permission);
+    String revokePermission(String packageName, String permission);
 }

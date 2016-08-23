@@ -174,19 +174,6 @@ public class TestButler {
         }
     }
 
-
-    public static void setInternetState(boolean enabled) {
-        verifyApiReady();
-        try {
-            if (!butlerApi.setInternetState(enabled)) {
-                throw new IllegalStateException("Failed to set internet state!");
-            }
-        } catch (RemoteException e) {
-            throw new IllegalStateException("Failed to communicate with ButlerService", e);
-        }
-    }
-
-
     /**
      * Change the location services mode on the emulator
      *
@@ -240,6 +227,36 @@ public class TestButler {
             if (!butlerApi.setRotation(rotation)) {
                 throw new IllegalStateException("Failed to set rotation!");
             }
+        } catch (RemoteException e) {
+            throw new IllegalStateException("Failed to communicate with ButlerService", e);
+        }
+    }
+
+    /**
+     * Grant permission to package
+     * @param packageName
+     * @param permission
+     * @return
+     */
+    public static String grantPermission(String packageName, String permission) {
+        verifyApiReady();
+        try {
+            return butlerApi.grantPermission(packageName, permission);
+        } catch (RemoteException e) {
+            throw new IllegalStateException("Failed to communicate with ButlerService", e);
+        }
+    }
+
+    /**
+     * Revoke permission to package
+     * @param packageName
+     * @param permission
+     * @return
+     */
+    public static String revokePermission(String packageName, String permission) {
+        verifyApiReady();
+        try {
+            return butlerApi.revokePermission(packageName, permission);
         } catch (RemoteException e) {
             throw new IllegalStateException("Failed to communicate with ButlerService", e);
         }
