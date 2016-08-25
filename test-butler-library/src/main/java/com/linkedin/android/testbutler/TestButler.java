@@ -160,8 +160,9 @@ public class TestButler {
     /**
      * Enable/disable the GSM connection on the emulator
      *
-     * @param enabled true if wifi should be enabled, false otherwise
+     * @param enabled true if GSM should be enabled, false otherwise
      */
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public static void setGsmState(boolean enabled) {
         verifyApiReady();
         try {
