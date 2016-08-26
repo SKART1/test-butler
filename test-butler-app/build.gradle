@@ -29,6 +29,7 @@ android {
     buildToolsVersion "23.0.1"
 
     signingConfigs {
+        //System application key
         custom {
             storeFile file("keystore/platform.keystore")
             keyAlias "platform"
@@ -44,7 +45,16 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName VERSION_NAME
-        signingConfig signingConfigs.custom
+        //signingConfig signingConfigs.custom
+    }
+
+    buildTypes {
+        release {
+            //nothing
+        }
+        debug {
+            signingConfig null
+        }
     }
 
     productFlavors {
@@ -55,15 +65,6 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-
-//    buildTypes {
-//        release {
-//            productFlavors.full.signingConfig signingConfigs.custom
-//        }
-//        debug {
-//            productFlavors.full.signingConfig signingConfigs.custom
-//        }
-//    }
 
     lintOptions {
         textReport true
